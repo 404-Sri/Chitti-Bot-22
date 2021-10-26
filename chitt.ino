@@ -1,12 +1,12 @@
-#include <Servo.h>     //declare ServoTimer2 library to run servo with TMRpcm
+#include "ServoTimer2.h"      //declare ServoTimer2 library to run servo with TMRpcm
 #include"SD.h"                //declare SD library for SD cards
 #define SD_ChipSelectPin 10   //select sd chip select pin 10
 #include"TMRpcm.h"            //library to play audio from sd card by arduino
 #include"SPI.h"              //create Serial peripheral Interface Communication
 TMRpcm tmrpcm;              //name tmrpcm
-Servo head;           //declare Head servo followed by left right hand servos
-Servo lhand;
-Servo rhand;
+ServoTimer2 head;           //declare Head servo followed by left right hand servos
+ServoTimer2 lhand;
+ServoTimer2 rhand;
 
 int in1= 6;               //declare Infrared sensor pins
 int in2= 7;
@@ -33,19 +33,18 @@ void loop()
 {
   if(!(digitalRead(in3)))          //Chest sensor is low- Say "Hi there.."
   {
-   tmrpcm.play("hello chitti.wav");     //Playing audio saved as 'welcome.wav'
+   tmrpcm.play("Hello Chitti.wav");     //Playing audio saved as 'welcome.wav'
     lhand.write(2500);            //hand up- saying HI
     delay(2000);
     lhand.write(1200);            //hand comes to handshake position
     
     delay(9000);
-    
   }
  
   if(!(digitalRead(in1)))       //Sensor on eye gets low play audio -"dont touch my eye"
   {
     tmrpcm.play("dont.wav");     //play file saved as "dont.wav" - dont touch my eye 
-    rhand.write(300);            //hand up
+    rhand.write(3000);            //hand up
     head.write(2000);
     delay(3000);
   }
@@ -60,9 +59,8 @@ void loop()
  
  else             //No input detected - keep the robot steady.
  {
-  
-  lhand;
-  rhand;
-  head;
+  lhand.write(300);
+  rhand.write(1700);
+  head.write(1500);
  }
 }
